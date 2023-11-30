@@ -2,6 +2,7 @@
 
 class Api::Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
+  protect_from_forgery unless: -> { request.format.json? }
 
   private
 
@@ -9,7 +10,7 @@ class Api::Users::RegistrationsController < Devise::RegistrationsController
     if resource.persisted?
       render json: {
         status: {code: 200, message: 'Signed up successfully.'},
-        data: UserSerializer.new(current_user).serializable_hash[:data][:attributes]
+        data: UserSerializer.new(current_user).serializable_hash
       }
     else
       render json: {
