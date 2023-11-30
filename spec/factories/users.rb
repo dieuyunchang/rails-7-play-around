@@ -1,7 +1,10 @@
 FactoryBot.define do
   factory :user do
-    email { "example@gmail.com" }
+    sequence(:email) do |i|
+      "hello#{Time.now.to_i}.#{i}@demomail.com"
+    end
+
     password { "password" }
-    jti { "66c8da4f-a981-4916-8d57-9ced382e5d23" }
+    jti { SecureRandom.hex(10) }
   end
 end
